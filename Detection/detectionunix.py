@@ -37,11 +37,11 @@ if __name__ == '__main__':
 
     init()
     cpath = os.getcwd()
-    path = cpath + '\\test'
+    path = cpath + '/test'
 
     #Testing if single file detection works
-    viruspath = path + '\\EICAR'
-    noviruspath = path + '\\NO_EICAR'
+    viruspath = path + '/EICAR'
+    noviruspath = path + '/NO_EICAR'
     scan_file(viruspath)
     scan_file(noviruspath)
 
