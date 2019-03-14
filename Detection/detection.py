@@ -6,8 +6,7 @@ import re
 engine = pyclamd.ClamdAgnostic()
 
 def init():
-    checker = engine.ping()
-    if (checker):
+    if (engine.ping()):
         print(engine.version())
         sys.stdout.flush()
         print(engine.reload())
