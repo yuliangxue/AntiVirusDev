@@ -11,7 +11,7 @@ def getGoalTime(user):
 	goalTime=mMonth+ mDay+ mHour+mMinute+user
 	return goalTime
 
-#get the elapsed time, subtract currentTime from the goalTime    
+#get the elapsed time, subtract currentTime from the goalTime
 def getReTime(goalTime):
 	DT=datetime.datetime.now()
 	mMonth=DT.month*30*24*60
@@ -28,7 +28,7 @@ def timeStamp(time2Stamp):
 	timeStamp=open("timeLog.txt","w+")
 	timeStamp.write(time2Stamp)
 	timeStamp.close()
-    
+
 #this function is for the case when the computer is off (intentionally or accidental)
 #return how much time it has elapsed
 def scScanNorm(user):
@@ -44,13 +44,9 @@ def scScanInt(rTime):
 	with open("timeLog.txt","r") as t:
 		rTime=t.read()
 		t.close()
-	if rTime==0:
-		#
+	if (rTime==0):
+		print("Check 1")
 	elif rTime<0:
-		#
+		print("Check 2")
 	elif rTime>0:
 		scScanNorm(user)
-
-
-  
-
