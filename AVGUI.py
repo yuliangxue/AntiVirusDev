@@ -2,22 +2,34 @@ import tkinter as tk
 import time
 from detection import *
 from tkinter import filedialog
+from tkinter.ttk import Progressbar
+from tkinter import HORIZONTAL
 
 LARGE_FONT= ("Verdana", 12)
 engine = pyclamd.ClamdAgnostic()
 
 def viewdir():
     global folder_path
-    folder_path = filedialog.askdirectory()
+    raw_folder_path = filedialog.askdirectory()
+    folder_path = raw_folder_path.replace('/','\\\\')
     print(folder_path)
     sys.stdout.flush()
+
+def scandir():
+    result = engine.contscan_file(folder_path)
+    if (result is None):
+        print('No Virus Found In This Directory')
+        sys.stdout.flush()
+    else:
+        print(result)
+        sys.stdout.flush()
 
 class AntiVirus(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        self.geometry("300x100")
+        self.geometry("300x140")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
@@ -74,6 +86,8 @@ class Scan_Page(tk.Frame):
 
         viewbutton = tk.Button(self, text="Browse", command=viewdir)
         viewbutton.pack()
+        scanbutton = tk.Button(self, text="Scan Selected Directory", command=scandir)
+        scanbutton.pack()
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(Load_Page))
         button1.pack()
