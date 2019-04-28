@@ -1,5 +1,6 @@
 import datetime
-#import schedule
+import time
+
 
 #get the target time from the current time
 def getGoalTime(user):
@@ -8,7 +9,7 @@ def getGoalTime(user):
 	mDay=DT.day*24*60
 	mHour=DT.hour*60
 	mMinute=DT.minute
-	goalTime=mMonth+ mDay+ mHour+mMinute+user
+	goalTime=mMonth+mDay+mHour+mMinute+user
 	return goalTime
 
 #get the elapsed time, subtract currentTime from the goalTime
@@ -26,27 +27,42 @@ def getReTime(goalTime):
 #update the remaining time into timeLog.txt
 def timeStamp(time2Stamp):
 	timeStamp=open("timeLog.txt","w+")
-	timeStamp.write(time2Stamp)
+	timeStamp.write(str(time2Stamp))
 	timeStamp.close()
 
-#this function is for the case when the computer is off (intentionally or accidental)
+def tMer(remainingTime):
+	tUp=False
+	while(tUp==False):
+		time.sleep(remainingTime)
+		tUp=True
+	
+#this function is for the case when the computer is on for the time duration
 #return how much time it has elapsed
 def scScanNorm(user):
 	gTime=getGoalTime(user)
 	rTime=getReTime(gTime)
-	#timer wait until rTime reaches 0 to execute
-	#execute
+	timeStamp(rTime)
+	tMer(rTime)
+	#perform the scanning
 	scScanNorm(user)
 
 #cases when machine is off or crashed
 #ran everytime when app is turned back on
-def scScanInt(rTime):
+rTime=0;
+def scScanInt():
 	with open("timeLog.txt","r") as t:
 		rTime=t.read()
 		t.close()
+	#hit the exact 24 hour mark
 	if (rTime==0):
+		#perform scan
 		print("Check 1")
+	#It is over 24 hours mark, ask user if scanning should be performed
 	elif rTime<0:
+		#GUI asking for decisions
 		print("Check 2")
+	#count the remaining time
+	#perform the scanning
 	elif rTime>0:
-		scScanNorm(user)
+		tMer(rTime)
+		#perform the scanning
