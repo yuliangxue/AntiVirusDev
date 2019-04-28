@@ -45,6 +45,8 @@ if __name__ == '__main__':
     scan_file(viruspath)
     scan_file(noviruspath)
 
+    print(viruspath)
+
     #Testing if scan directory works
     print('Scanning Path: ' + path)
     sys.stdout.flush()

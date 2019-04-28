@@ -29,7 +29,7 @@ class AntiVirus(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        self.geometry("300x140")
+        self.geometry("300x200")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
@@ -37,7 +37,7 @@ class AntiVirus(tk.Tk):
 
         self.frames = {}
 
-        for F in (Load_Page, Scan_Page):
+        for F in (Load_Page, Scan_Page, quarantine_Page, history_Page, schedule_Page):
 
             frame = F(container, self)
 
@@ -64,8 +64,20 @@ class Load_Page(tk.Frame):
 
         button2 = tk.Button(self, text="System Scan",
                             command = lambda: controller.show_frame(Scan_Page))
+
+        button3 = tk.Button(self, text="Scheduled Scan",
+                            command = lambda: controller.show_frame(schedule_Page))
+
+        button4 = tk.Button(self, text="History",
+                            command = lambda: controller.show_frame(history_Page))
+
+        button5 = tk.Button(self, text="Quarantine",
+                            command = lambda: controller.show_frame(quarantine_Page))
         button.pack()
         button2.pack()
+        button3.pack()
+        button4.pack()
+        button5.pack()
 
     def load_module(self):
         init()
@@ -88,6 +100,41 @@ class Scan_Page(tk.Frame):
         viewbutton.pack()
         scanbutton = tk.Button(self, text="Scan Selected Directory", command=scandir)
         scanbutton.pack()
+        button1 = tk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(Load_Page))
+        button1.pack()
+
+
+class schedule_Page(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Scheduled Scanning", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button1 = tk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(Load_Page))
+        button1.pack()
+
+
+class history_Page(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Scanning History", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
+        button1 = tk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(Load_Page))
+        button1.pack()
+
+class quarantine_Page(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Quarantine System", font=LARGE_FONT)
+        label.pack(pady=10,padx=10)
+
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(Load_Page))
         button1.pack()
