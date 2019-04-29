@@ -4,6 +4,7 @@ from detection import *
 from tkinter import filedialog
 from tkinter.ttk import Progressbar
 from tkinter import HORIZONTAL
+from tkinter import *
 
 LARGE_FONT= ("Verdana", 12)
 engine = pyclamd.ClamdAgnostic()
@@ -29,7 +30,7 @@ class AntiVirus(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        self.geometry("300x200")
+        self.geometry("300x300")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
@@ -134,6 +135,17 @@ class quarantine_Page(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = tk.Label(self, text="Quarantine System", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
+
+        lb = Listbox(self)
+        lb.pack()
+        lb.insert(END, "a list entry")
+
+        for item in ["one", "two", "three", "four"]:
+            lb.insert(END, item)
+
+        deletebutton = tk.Button(self, text="Delete",
+                            command=lambda lb=lb: lb.delete(ANCHOR))
+        deletebutton.pack()
 
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(Load_Page))
