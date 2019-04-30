@@ -57,28 +57,52 @@ class Load_Page(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
+        self.configure(background='#3868a3')
         label = tk.Label(self, text="Welcome to AntiVirus Scanner", font=LARGE_FONT)
+        label.configure(background='#3868a3')
         label.pack(pady=10,padx=10)
 
-        button = tk.Button(self, text="Load Virus Library",
+        loadbi = tk.PhotoImage(file="img/reload.png")
+        scanbi = tk.PhotoImage(file="img/scan.png")
+        schebi = tk.PhotoImage(file="img/schedule.png")
+        quarbi = tk.PhotoImage(file="img/quarantine.png")
+        histbi = tk.PhotoImage(file="img/history.png")
+
+        button = tk.Button(self, image=loadbi,
                             command = self.load_module)
+        button.image = loadbi
+        button["bg"] = "#3868a3"
+        button["border"] = "0"
 
-        button2 = tk.Button(self, text="System Scan",
+        button2 = tk.Button(self, image=scanbi,
                             command = lambda: controller.show_frame(Scan_Page))
+        button2.image = scanbi
+        button2["bg"] = "#3868a3"
+        button2["border"] = "0"
 
-        button3 = tk.Button(self, text="Scheduled Scan",
+        button3 = tk.Button(self, image=schebi,
                             command = lambda: controller.show_frame(schedule_Page))
+        button3.image = schebi
+        button3["bg"] = "#3868a3"
+        button3["border"] = "0"
 
-        button4 = tk.Button(self, text="History",
+        button4 = tk.Button(self, image=histbi,
                             command = lambda: controller.show_frame(history_Page))
+        button4.image = histbi
+        button4["bg"] = "#3868a3"
+        button4["border"] = "0"
 
-        button5 = tk.Button(self, text="Quarantine",
+        button5 = tk.Button(self, image=quarbi,
                             command = lambda: controller.show_frame(quarantine_Page))
-        button.pack()
-        button2.pack()
-        button3.pack()
-        button4.pack()
-        button5.pack()
+        button5.image = quarbi
+        button5["bg"] = "#3868a3"
+        button5["border"] = "0"
+
+        button.pack(pady=10)
+        button2.pack(pady=10)
+        button3.pack(pady=10)
+        button4.pack(pady=10)
+        button5.pack(pady=10)
 
     def load_module(self):
         init()
