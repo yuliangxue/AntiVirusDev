@@ -2,6 +2,41 @@ import pyclamd
 import os
 import sys
 import re
+import datetime
+import time
+
+def scanHis(result):
+	cpath = os.getcwd()
+	path = cpath + '/scanHistory/'
+
+	path, dirs, files = next(os.walk(path))
+	file_count = len(files)
+
+	virusInfo=re.findall(r'\'(.*?)\'', result)
+	virusNum=len(virusInfo)/3
+	time=datetime.datetime.now()
+	directory="Dir:"
+
+	hist=open(path + "log%d.txt" %(file_count + 1), "w+")
+	hist.write('Time:' + str(time)+'\n')
+	hist.write(directory + '\n')
+	hist.write('Virus:'+ '\n')
+	i=0
+	idx=0;
+	while(idx<virusNum):
+		hist.write('\t'+virusInfo[i] + ', ' + virusInfo[i+2] + '\n')
+		idx=idx+1;
+		i=i+3
+
+	is_detected = 0
+	if(virusNum == 0):
+		hist.write('is_detected:' + str(is_detected) + '\n')
+	else:
+		is_detected=1
+		hist.write('is_detected:' + str(is_detected) + '\n' )
+
+	hist.close()
+
 
 def init():
     engine = pyclamd.ClamdAgnostic()
