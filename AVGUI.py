@@ -30,9 +30,14 @@ def multiquarantine(file_list):
         os.makedirs(quarantine_directory)
 
     for each_file in file_list:
-      old_location = os.path.dirname(os.path.abspath(each_file))
-      new_location = quarantine_directory + each_file
-      os.rename(old_location,new_location)
+        old_location = each_file
+        file_name = os.path.basename(each_file)
+        file_name.replace('/','')
+        new_location = quarantine_directory + file_name
+        print("New file path location: " + new_location)
+        os.rename(old_location,new_location)
+
+
 
 def quarantine(file_path):
     #Multi-File Quarantine
@@ -59,10 +64,14 @@ def scandir():
     else:
         print(result)
         result_path = next(iter(result))
-        result_path = result_path.replace('\\\\','\\')
-        result_path = result_path.replace('\\','/')
-        print(result_path)
-        quarantine(result_path)
+        print("Listing paths in results")
+        all_paths = []
+        for paths in result.keys():
+            paths = paths.replace('\\\\','\\')
+            paths = paths.replace('\\','/')
+            all_paths.append(paths)
+        print(all_paths)
+        multiquarantine(all_paths)
         print("File has been Quarantined")
         sys.stdout.flush()
 
