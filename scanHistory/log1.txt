@@ -1,0 +1,11 @@
+Time:2019-05-02 14:32:07.169098
+Dir:C:\\Users\\Java\\Desktop\\Git\\AntiVirusDev\\Detection
+Virus:
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR3.txt, Eicar-Test-Signature
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR4.txt, Eicar-Test-Signature
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR5.txt, Eicar-Test-Signature
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR6.txt, Eicar-Test-Signature
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR7.txt, Eicar-Test-Signature
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR8.txt, Eicar-Test-Signature
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR2.txt, Eicar-Test-Signature
+is_detected:1

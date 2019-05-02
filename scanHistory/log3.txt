@@ -1,0 +1,4 @@
+Time:2019-05-02 14:35:49.115230
+Dir:C:\\Users\\Java\\Desktop\\Git\\AntiVirusDev\\Detection
+Virus:
+is_detected:0
