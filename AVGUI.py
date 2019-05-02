@@ -64,13 +64,14 @@ def scandir():
         print(result)
         print("----------------------------------")
         sys.stdout.flush()
-        result_path = next(iter(result))
-        result_path = result_path.replace('\\\\','\\')
-        result_path = result_path.replace('\\','/')
-        print(result_path)
+        all_paths = []
+        for paths in result.keys():
+            paths = paths.replace('\\\\','\\')
+            paths = paths.replace('\\','/')
+            all_paths.append(paths)
         print("----------------------------------")
-        quarantine(result_path)
-        print("File has been Quarantined")
+        multiquarantine(all_paths)
+        print("Files have been Quarantined")
         sys.stdout.flush()
 
 def schedulescan():
