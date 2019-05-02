@@ -1,0 +1,5 @@
+Time:2019-05-01 19:06:45.705736
+Dir:C:\\Users\\Java\\Desktop\\Git\\AntiVirusDev\\Detection
+Virus:
+	C:\\\\Users\\\\Java\\\\Desktop\\\\Git\\\\AntiVirusDev\\\\Detection\\test\\EICAR.txt, Eicar-Test-Signature
+is_detected:1

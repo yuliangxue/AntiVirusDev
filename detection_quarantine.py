@@ -2,6 +2,7 @@ import pyclamd
 import os
 import sys
 import re
+
 engine = pyclamd.ClamdAgnostic()
 def init():
     if (engine.ping()):
@@ -29,7 +30,7 @@ def scan_file(path):
     else:
         print(result)
         sys.stdout.flush()
-        # As mentioned above, adding this to save time 
+        # As mentioned above, adding this to save time
         return True
 
 
@@ -43,7 +44,7 @@ def multiscan():
     # May need to use regular expression to replace all slash with double slash
     file_list = []
     root_directory = os.path.abspath(os.sep)
-    desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
+    desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
     for sub_directories, directories, files in os.walk(desktop):
         for my_file in files:
             filepath = sub_directories + os.sep + my_file
@@ -55,10 +56,10 @@ def multiscan():
 
 def multiquarantine(file_list):
     #Multi-File Quarantine
-    quarantine_directory = os.path.dirname("/Quarantened_Files") 
+    quarantine_directory = os.path.dirname("/Quarantened_Files")
     if not os.path.exists(quarantine_directory):
         os.makedirs(quarantine_directory)
-    
+
     for each_file in file_list:
       old_location = os.path.dirname(os.path.abspath(each_file))
       new_location = quarantine_directory + each_file
@@ -66,7 +67,7 @@ def multiquarantine(file_list):
 
 def multideletion():
     #Multi-File Deletion
-  
+
     for files in os.walk(quarantine_directory):
             user_input = input("Enter 1 to delete the following file:" + files)
             if(user_input == 1):
@@ -78,9 +79,9 @@ def multideletion():
     if(user_response == "2"):
         for files in os.walk(quarantine_directory):
             print(files)
-    ### No longer needed 
-    
-    
+    ### No longer needed
+
+
 if __name__ == '__main__':
 
     init()
@@ -99,12 +100,3 @@ if __name__ == '__main__':
     quarantined_files = multiscan()
     multiquarantine(quarantined_files)
     multideletion()
-    
-
-    
-
-
-    
-
-
-    

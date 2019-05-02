@@ -1,5 +1,6 @@
 import tkinter as tk
 import time
+import os
 from detection import *
 from tkinter import filedialog
 from tkinter.ttk import Progressbar
@@ -8,6 +9,12 @@ from tkinter import *
 
 LARGE_FONT= ("Verdana", 12)
 engine = pyclamd.ClamdAgnostic()
+
+global logname
+
+def call_hinsert():
+    return lambda: controller.get_page(history_Page)
+
 
 def viewdir():
     global folder_path
@@ -18,6 +25,7 @@ def viewdir():
 
 def scandir():
     result = engine.contscan_file(folder_path)
+    scanHis(result, folder_path)
     if (result is None):
         print('No Virus Found In This Directory')
         sys.stdout.flush()
@@ -25,12 +33,21 @@ def scandir():
         print(result)
         sys.stdout.flush()
 
+def schedulescan():
+    print("Check")
+    sys.stdout.flush()
+    time = self.variable.get()
+    print(time)
+    sys.stdout.flush()
+    #Implement Scheduled Scanning
+    return 0
+
 class AntiVirus(tk.Tk):
 
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        self.geometry("300x300")
+        self.geometry("400x400")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
@@ -49,9 +66,9 @@ class AntiVirus(tk.Tk):
         self.show_frame(Load_Page)
 
     def show_frame(self, cont):
-
         frame = self.frames[cont]
         frame.tkraise()
+        frame.event_generate("<<ShowFrame>>")
 
 class Load_Page(tk.Frame):
 
@@ -113,6 +130,7 @@ class Load_Page(tk.Frame):
 class Scan_Page(tk.Frame):
 
     def __init__(self, parent, controller):
+        self.controller = controller
         tk.Frame.__init__(self, parent)
         if (engine.ping()):
             label = tk.Label(self, text="AntiVirus Library Loaded", font=LARGE_FONT)
@@ -129,7 +147,6 @@ class Scan_Page(tk.Frame):
                             command=lambda: controller.show_frame(Load_Page))
         button1.pack()
 
-
 class schedule_Page(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -137,10 +154,18 @@ class schedule_Page(tk.Frame):
         label = tk.Label(self, text="Scheduled Scanning", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
 
+        variable = StringVar(self)
+        variable.set("1 Day")
+        w = OptionMenu(self, variable, "1 Day", "7 Days", "30 Days")
+        w.pack()
+
+        button2 = tk.Button(self, text="Schedule Scanning",
+                            command=schedulescan)
+        button2.pack()
+
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(Load_Page))
         button1.pack()
-
 
 class history_Page(tk.Frame):
 
@@ -149,9 +174,33 @@ class history_Page(tk.Frame):
         label = tk.Label(self, text="Scanning History", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
 
+        lb = Listbox(self)
+        self.lb = lb
+        lb.pack()
+
+        v = StringVar()
+        Label(self, textvariable=v, bg="grey").pack()
+        v.set("New Text!")
+
         button1 = tk.Button(self, text="Back to Home",
                             command=lambda: controller.show_frame(Load_Page))
         button1.pack()
+
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+
+    def on_show_frame(self, event):
+        print('TEST')
+        sys.stdout.flush()
+
+        logpath = os.getcwd() + '\\scanHistory'
+        files = []
+        for (dirpath, dirnames, filenames) in os.walk(logpath):
+            files.extend(filenames)
+            break
+
+        for file in files:
+            self.lb.insert(END, file)
+
 
 class quarantine_Page(tk.Frame):
 

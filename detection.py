@@ -5,17 +5,19 @@ import re
 import datetime
 import time
 
-def scanHis(result):
+engine = pyclamd.ClamdAgnostic()
+
+def scanHis(result, dir):
 	cpath = os.getcwd()
 	path = cpath + '/scanHistory/'
 
 	path, dirs, files = next(os.walk(path))
 	file_count = len(files)
 
-	virusInfo=re.findall(r'\'(.*?)\'', result)
+	virusInfo=re.findall(r'\'(.*?)\'', str(result))
 	virusNum=len(virusInfo)/3
 	time=datetime.datetime.now()
-	directory="Dir:"
+	directory='Dir:' + dir
 
 	hist=open(path + "log%d.txt" %(file_count + 1), "w+")
 	hist.write('Time:' + str(time)+'\n')
@@ -39,11 +41,8 @@ def scanHis(result):
 
 
 def init():
-    engine = pyclamd.ClamdAgnostic()
     if (engine.ping()):
         print(engine.version())
-        sys.stdout.flush()
-        print(engine.reload())
         sys.stdout.flush()
         print(engine.stats())
         sys.stdout.flush()
@@ -71,15 +70,18 @@ if __name__ == '__main__':
 
     init()
     cpath = os.getcwd()
-    path = cpath + '\\test'
+    path = cpath + '\\detection\\test'
 
     #Testing if single file detection works
     viruspath = path + '\\EICAR'
     noviruspath = path + '\\NO_EICAR'
-    scan_file(viruspath)
-    scan_file(noviruspath)
+    print(scan_file(viruspath))
+    sys.stdout.flush()
 
     #Testing if scan directory works
     print('Scanning Path: ' + path)
     sys.stdout.flush()
-    print(engine.contscan_file(path))
+    result = engine.contscan_file(path)
+    print("----------------------------------------")
+    scanHis(result, path)
+    sys.stdout.flush()

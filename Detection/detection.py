@@ -9,8 +9,6 @@ def init():
     if (engine.ping()):
         print(engine.version())
         sys.stdout.flush()
-        print(engine.reload())
-        sys.stdout.flush()
         print(engine.stats())
         sys.stdout.flush()
     else:
@@ -50,4 +48,6 @@ if __name__ == '__main__':
     #Testing if scan directory works
     print('Scanning Path: ' + path)
     sys.stdout.flush()
+    print('---------------Output---------------')
     print(engine.contscan_file(path))
+    sys.stdout.flush()
