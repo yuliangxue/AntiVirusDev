@@ -47,6 +47,7 @@ def quarantine(file_path):
 
     old_location = file_path
     file_name = os.path.basename(file_path)
+    file_name.replace('/','')
     new_location = quarantine_directory + file_name
     print("New file path location: " + new_location)
     sys.stdout.flush()
