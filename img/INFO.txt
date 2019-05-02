@@ -1,3 +1,5 @@
+#Color set
+
 background color: 7bbeff
 bg down color: 4b74a6
 border color: 4b74a6

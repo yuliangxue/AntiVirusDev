@@ -10,12 +10,6 @@ from tkinter import *
 LARGE_FONT= ("Verdana", 12)
 engine = pyclamd.ClamdAgnostic()
 
-global logname
-
-def call_hinsert():
-    return lambda: controller.get_page(history_Page)
-
-
 def viewdir():
     global folder_path
     raw_folder_path = filedialog.askdirectory()
@@ -25,7 +19,7 @@ def viewdir():
 
 def multiquarantine(file_list):
     #Multi-File Quarantine
-    quarantine_directory = os.path.dirname("/Quarantened_Files")
+    quarantine_directory = os.getcwd()+"\\Quarantened_Files\\"
     if not os.path.exists(quarantine_directory):
         os.makedirs(quarantine_directory)
 
@@ -41,16 +35,21 @@ def multiquarantine(file_list):
 
 def quarantine(file_path):
     #Multi-File Quarantine
-    quarantine_directory = os.path.dirname("/Quarantened_Files")
+    quarantine_directory = os.getcwd()+"\\Quarantened_Files\\"
+    print("----------------------------------------------------------------")
+    print(quarantine_directory)
+    print("----------------------------------------------------------------")
+    sys.stdout.flush()
     if not os.path.exists(quarantine_directory):
         os.makedirs(quarantine_directory)
 
-    
+
     old_location = file_path
     file_name = os.path.basename(file_path)
     file_name.replace('/','')
     new_location = quarantine_directory + file_name
     print("New file path location: " + new_location)
+    sys.stdout.flush()
     os.rename(old_location,new_location)
 
 
@@ -63,15 +62,14 @@ def scandir():
         sys.stdout.flush()
     else:
         print(result)
+        print("----------------------------------")
+        sys.stdout.flush()
         result_path = next(iter(result))
-        print("Listing paths in results")
-        all_paths = []
-        for paths in result.keys():
-            paths = paths.replace('\\\\','\\')
-            paths = paths.replace('\\','/')
-            all_paths.append(paths)
-        print(all_paths)
-        multiquarantine(all_paths)
+        result_path = result_path.replace('\\\\','\\')
+        result_path = result_path.replace('\\','/')
+        print(result_path)
+        print("----------------------------------")
+        quarantine(result_path)
         print("File has been Quarantined")
         sys.stdout.flush()
 
@@ -89,7 +87,7 @@ class AntiVirus(tk.Tk):
     def __init__(self, *args, **kwargs):
 
         tk.Tk.__init__(self, *args, **kwargs)
-        self.geometry("400x400")
+        self.geometry("400x430")
         container = tk.Frame(self)
         container.pack(side="top", fill="both", expand = True)
         container.grid_rowconfigure(0, weight=1)
@@ -117,9 +115,13 @@ class Load_Page(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self,parent)
         self.configure(background='#3868a3')
-        label = tk.Label(self, text="Welcome to AntiVirus Scanner", font=LARGE_FONT)
+
+        logobi = tk.PhotoImage(file="img/logo.png")
+        label = tk.Label(self, image=logobi)
+        label.image = logobi
+        label["bg"] = "#3868a3"
         label.configure(background='#3868a3')
-        label.pack(pady=10,padx=10)
+        label.pack(pady=20,padx=10)
 
         loadbi = tk.PhotoImage(file="img/reload.png")
         scanbi = tk.PhotoImage(file="img/scan.png")
@@ -172,67 +174,118 @@ class Load_Page(tk.Frame):
 class Scan_Page(tk.Frame):
 
     def __init__(self, parent, controller):
-        self.controller = controller
         tk.Frame.__init__(self, parent)
+
+        self.configure(background='#3868a3')
         if (engine.ping()):
             label = tk.Label(self, text="AntiVirus Library Loaded", font=LARGE_FONT)
         else:
             label = tk.Label(self, text="Please Load AntiVirus Library First", font=LARGE_FONT)
 
         label.pack(pady=10,padx=10)
+        label["bg"] = "#3868a3"
 
-        viewbutton = tk.Button(self, text="Browse", command=viewdir)
-        viewbutton.pack()
-        scanbutton = tk.Button(self, text="Scan Selected Directory", command=scandir)
-        scanbutton.pack()
-        button1 = tk.Button(self, text="Back to Home",
+        browbi = tk.PhotoImage(file="img/browse.png")
+        scanbi = tk.PhotoImage(file="img/fscan.png")
+
+        viewbutton = tk.Button(self, image=browbi, command=viewdir)
+        viewbutton.image=browbi
+        viewbutton["bg"] = "#3868a3"
+        viewbutton["border"] = "0"
+        viewbutton.pack(pady=10)
+        scanbutton = tk.Button(self, image=scanbi, command=scandir)
+        scanbutton.image=scanbi
+        scanbutton["bg"] = "#3868a3"
+        scanbutton["border"] = "0"
+        scanbutton.pack(pady=10)
+
+        homebi = tk.PhotoImage(file="img/home.png")
+        button1 = tk.Button(self, image=homebi,
                             command=lambda: controller.show_frame(Load_Page))
-        button1.pack()
+        button1.image = homebi
+        button1["bg"] = "#3868a3"
+        button1["border"] = "0"
+        button1.pack(pady=10)
 
 class schedule_Page(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+
+        self.configure(background='#3868a3')
         label = tk.Label(self, text="Scheduled Scanning", font=LARGE_FONT)
+        label.configure(background='#3868a3')
         label.pack(pady=10,padx=10)
 
         variable = StringVar(self)
         variable.set("1 Day")
         w = OptionMenu(self, variable, "1 Day", "7 Days", "30 Days")
-        w.pack()
+        w.pack(pady=10)
 
-        button2 = tk.Button(self, text="Schedule Scanning",
+        ssbi = tk.PhotoImage(file="img/ss.png")
+        button2 = tk.Button(self, image=ssbi,
                             command=schedulescan)
-        button2.pack()
+        button2.image = ssbi
+        button2["bg"] = "#3868a3"
+        button2["border"] = "0"
+        button2.pack(pady=10)
 
-        button1 = tk.Button(self, text="Back to Home",
+        homebi = tk.PhotoImage(file="img/home.png")
+        button1 = tk.Button(self, image=homebi,
                             command=lambda: controller.show_frame(Load_Page))
-        button1.pack()
+        button1.image = homebi
+        button1["bg"] = "#3868a3"
+        button1["border"] = "0"
+        button1.pack(pady=10)
 
 class history_Page(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+
+        self.configure(background='#3868a3')
         label = tk.Label(self, text="Scanning History", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
 
         lb = Listbox(self)
         self.lb = lb
-        lb.pack()
+        lb.pack(pady=10)
 
         v = StringVar()
-        Label(self, textvariable=v, bg="grey").pack()
-        v.set("New Text!")
+        label = Label(self, textvariable=v, bg="grey")
+        label.pack(pady=10)
+        label.config(width=50)
+        self.v = v
 
-        button1 = tk.Button(self, text="Back to Home",
+        def show_log():
+            log = lb.get(ACTIVE)
+            logpath = os.getcwd() + '\\scanHistory\\' + log
+            with open (logpath, "r") as myfile:
+                datas=myfile.readlines()
+
+            logs = ''
+            for data in datas:
+                logs = logs + data + '' + '\n'
+                print(logs)
+                sys.stdout.flush()
+            v.set(logs)
+
+        viewb = tk.Button(self, text="View",
+                            command=show_log)
+        viewb.pack(pady=10)
+
+        homebi = tk.PhotoImage(file="img/home.png")
+        button1 = tk.Button(self, image=homebi,
                             command=lambda: controller.show_frame(Load_Page))
-        button1.pack()
+        button1.image = homebi
+        button1["bg"] = "#3868a3"
+        button1["border"] = "0"
+        button1.pack(pady=10)
 
         self.bind("<<ShowFrame>>", self.on_show_frame)
 
     def on_show_frame(self, event):
-        print('TEST')
-        sys.stdout.flush()
+        self.lb.delete(0, tk.END)
 
         logpath = os.getcwd() + '\\scanHistory'
         files = []
@@ -248,23 +301,41 @@ class quarantine_Page(tk.Frame):
 
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
+        self.configure(background='#3868a3')
         label = tk.Label(self, text="Quarantine System", font=LARGE_FONT)
         label.pack(pady=10,padx=10)
 
         lb = Listbox(self)
-        lb.pack()
-        lb.insert(END, "a list entry")
+        lb.pack(pady=10)
+        self.lb = lb
 
-        for item in ["one", "two", "three", "four"]:
-            lb.insert(END, item)
+        lb.config(width=50)
 
         deletebutton = tk.Button(self, text="Delete",
                             command=lambda lb=lb: lb.delete(ANCHOR))
-        deletebutton.pack()
+        deletebutton.pack(pady=10)
 
-        button1 = tk.Button(self, text="Back to Home",
+        homebi = tk.PhotoImage(file="img/home.png")
+        button1 = tk.Button(self, image=homebi,
                             command=lambda: controller.show_frame(Load_Page))
-        button1.pack()
+        button1.image = homebi
+        button1["bg"] = "#3868a3"
+        button1["border"] = "0"
+        button1.pack(pady=10)
+
+        self.bind("<<ShowFrame>>", self.on_show_frame)
+
+    def on_show_frame(self, event):
+        self.lb.delete(0, tk.END)
+
+        logpath = os.getcwd() + '\\Quarantened_Files'
+        files = []
+        for (dirpath, dirnames, filenames) in os.walk(logpath):
+            files.extend(filenames)
+            break
+
+        for file in files:
+            self.lb.insert(END, file)
 
 def main():
     app = AntiVirus()

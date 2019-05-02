@@ -1,5 +1,0 @@
-Time:2019-05-01 22:45:13.893182
-Dir:C:\\Users\\harmo\\Desktop\\AntiVirusDev\\Detection\\test
-Virus:
-	C:\\\\Users\\\\harmo\\\\Desktop\\\\AntiVirusDev\\\\Detection\\\\test\\EICAR.txt, Eicar-Test-Signature
-is_detected:1
