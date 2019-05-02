@@ -46,13 +46,18 @@ def multiscan():
     desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
     for sub_directories, directories, files in os.walk(desktop):
         for my_file in files:
-            filepath = sub_directories + os.sep + my_file
+            filepath = os.path.join(os.path.join(os.path.expanduser('~')), my_file)
+            print(filepath)
+            filepath = filepath.replace("/", "\\\\")
             # Check for virus behavior here
             print("FILE TO SCAN:   " + filepath)
-            if scan_file(my_file) == True:
-                file_list.append(my_file)
-    return file_list
-
+            print(scan_file(filepath))
+            #if scan_file(my_file) == True:
+                
+                #UNCOMMENT BELOW
+                #file_list.append(my_file)
+    #return file_list
+                
 def multiquarantine(file_list):
     #Multi-File Quarantine
     quarantine_directory = os.path.dirname("/Quarantened_Files") 
@@ -97,8 +102,8 @@ if __name__ == '__main__':
     print('Scanning Path: ' + path)
     sys.stdout.flush()
     quarantined_files = multiscan()
-    multiquarantine(quarantined_files)
-    multideletion()
+    # multiquarantine(quarantined_files)
+    # multideletion()
     
 
     
